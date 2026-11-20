@@ -100,6 +100,14 @@
 			"dependencies": [
 				"GorillaLibrary"
 			]
+		},
+		{
+			"name": "ForeverCosmetx",
+			"tag": "",
+			"gitPath": "iiDkRemastered/ForeverCosmetxx",
+			"releaseId": 0,
+			"author": "iiDkRemastered",
+			"group": "Cosmetic"
 		}
 	],
 	"groups": [{

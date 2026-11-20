@@ -29,6 +29,14 @@
     "download_url": "https://github.com/Auros/Bepinject/releases/download/1.0.1/Extenject.zip"
   },
   {
+    "name": "ForeverCosmetx",
+    "author": "iiDkRemastered",
+    "version": "1.0.0",
+    "git_path": "iiDkRemastered/ForeverCosmetxx",
+    "group": "Cosmetic",
+    "download_url": "https://github.com/iiDkRemastered/ForeverCosmetxx/releases/download/1.0.0/ForeverCosmetx.dll"
+  },
+  {
     "name": "GOOMPS",
     "author": "iiDkRemastered",
     "version": "1.0.1",
