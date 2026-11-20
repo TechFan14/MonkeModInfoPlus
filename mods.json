@@ -8,11 +8,11 @@
 			"group": "Core"
 		},
 		{
-			"name": "Utilla",
+			"name": "GorillaLibrary",
 			"tag": "",
-			"gitPath": "legoandmars/Utilla",
+			"gitPath": "GorillaTagModdingHub/GorillaLibrary",
 			"releaseId": 0,
-			"author": "bobbievr",
+			"author": "GorillaTagModdingHub",
 			"group": "Core"
 		},
 		{
@@ -68,7 +68,7 @@
 			"author": "buzzbb",
 			"group": "Tweaks / Tools",
 			"dependencies": [
-				"Utilla"
+				"GorillaLibrary"
 			]
 		},
 		{
@@ -87,7 +87,7 @@
 			"author": "Husky",
 			"group": "Gameplay",
 			"dependencies": [
-				"Utilla"
+				"GorillaLibrary"
 			]
 		},
 		{
@@ -98,7 +98,7 @@
 			"author": "LIV",
 			"group": "Tweaks / Tools",
 			"dependencies": [
-				"Utilla"
+				"GorillaLibrary"
 			]
 		}
 	],
