@@ -1,62 +1,94 @@
 const https = require('https');
 const fs = require('fs');
 
-const prefix = 'https://api.github.com/';
-const repos = 'repos/';
-const repositories = 'repositories/';
-const postfix = 'latest';
+const API = 'https://api.github.com/';
+const mods = JSON.parse(fs.readFileSync('mods.json', 'utf8')).mods;
+const token = process.env.SECRET;
 
-let inputJSON = fs.readFileSync('mods.json');
-let modList = JSON.parse(inputJSON);
-let result = []
+function getJson(url) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      'User-Agent': 'MonkeModInfo-updater',
+      'Accept': 'application/vnd.github+json'
+    };
+    if (token) headers.Authorization = `Bearer ${token}`;
 
-function isNumeric(value) {
-  return /^-?\d+$/.test(value);
+    https.get(url, { headers }, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        res.resume();
+        getJson(res.headers.location).then(resolve, reject);
+        return;
+      }
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', chunk => { body += chunk; });
+      res.on('end', () => {
+        if (res.statusCode !== 200) {
+          reject(new Error(`HTTP ${res.statusCode} from ${url}`));
+          return;
+        }
+        try {
+          resolve(JSON.parse(body));
+        } catch (e) {
+          reject(new Error(`Invalid JSON from ${url}: ${e.message}`));
+        }
+      });
+    }).on('error', reject);
+  });
 }
 
-modList.mods.forEach(mod => 
-  https.get(`${prefix}${!isNumeric(mod.gitPath) ? repos : repositories}${mod.gitPath}/releases/${mod.tag ? mod.tag : postfix}`, { headers: { 'User-Agent' : 'DeadlyKitten/MonkeModInfo' ,'Authorization': `Token ${process.env.SECRET}`}},(res) => {
-    let body = "";
+function versionOf(tag) {
+  const match = String(tag || '').match(/\d+(?:\.\d+)+/);
+  return match ? match[0] : String(tag || '').replace(/[^\d.,]/g, '').trim();
+}
 
-      res.on("data", (chunk) => {
-          body += chunk;
-      });
+async function main() {
+  const results = await Promise.all(mods.map(async mod => {
+    const repoPath = /^\d+$/.test(mod.gitPath)
+      ? `repositories/${mod.gitPath}`
+      : `repos/${mod.gitPath}`;
+    const releasePath = mod.tag
+      ? `releases/tags/${encodeURIComponent(mod.tag)}`
+      : 'releases/latest';
+    const url = `${API}${repoPath}/${releasePath}`;
 
-      res.on("end", () => {
-          try {
-            let json = JSON.parse(body);
-            result.push({
-              'name': mod.name,
-              'author': mod.author,
-              'version': json.tag_name.replace(/[^\d\n,.]/g,''),
-              'dependencies': mod.dependencies,
-              'dependents': mod.dependents,
-              'install_location': mod.installPath,
-              'git_path': mod.gitPath,
-              'group': mod.group,
-              'download_url': json.assets[mod.releaseId].browser_download_url
-            });
-          } catch (error) {
-              console.error(mod.gitPath);
-              console.error(error.message);
-          };
-      });
-}));
+    try {
+      const release = await getJson(url);
+      const asset = release.assets && release.assets[mod.releaseId];
+      if (!asset) throw new Error(`asset #${mod.releaseId} not found`);
 
-let attempts = 0;
-let timeout = 20;
-let interval = setInterval(() => {
-  if (result.length === modList.mods.length || attempts > timeout) {
+      return {
+        name: mod.name,
+        author: mod.author,
+        version: versionOf(release.tag_name),
+        ...(mod.dependencies ? { dependencies: mod.dependencies } : {}),
+        ...(mod.dependents ? { dependents: mod.dependents } : {}),
+        ...(mod.installPath ? { install_location: mod.installPath } : {}),
+        git_path: mod.gitPath,
+        group: mod.group,
+        download_url: asset.browser_download_url
+      };
+    } catch (e) {
+      console.error(`Skipping ${mod.name}: ${e.message}`);
+      return null;
+    }
+  }));
 
-    result.sort(function(a,b) {
-      if (a.name === b.name) return 0;
-      return (a.name > b.name) ? 1 : -1;
-    });
-
-    fs.writeFileSync('modinfo.json', JSON.stringify(result, null, 2));
-
-    clearInterval(interval);
+  const list = results.filter(Boolean).sort((a, b) => {
+    if (a.name === b.name) return 0;
+    return a.name > b.name ? 1 : -1;
+  });
+  const output = JSON.stringify(list, null, 2) + '\n';
+  const current = fs.existsSync('modinfo.json') ? fs.readFileSync('modinfo.json', 'utf8') : '';
+  if (current.trim() !== output.trim()) {
+    fs.writeFileSync('modinfo.json', output);
+    console.log(`Wrote modinfo.json with ${list.length} mods (${mods.length - list.length} skipped)`);
   } else {
-    attempts++;
+    console.log(`No changes (${list.length} mods, ${mods.length - list.length} skipped)`);
   }
-}, 100);
+}
+
+main().catch(e => {
+  console.error(e);
+  process.exit(1);
+});

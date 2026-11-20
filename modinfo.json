@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "name": "BepInEx",
     "author": "BepInEx Team",
@@ -29,6 +29,25 @@
     "download_url": "https://github.com/Auros/Bepinject/releases/download/1.0.1/Extenject.zip"
   },
   {
+    "name": "GOOMPS",
+    "author": "iiDkRemastered",
+    "version": "1.0.1",
+    "dependencies": [
+      "GorillaLibrary"
+    ],
+    "git_path": "iiDkRemastered/GOOMPS",
+    "group": "Tweaks / Tools",
+    "download_url": "https://github.com/iiDkRemastered/goomps/releases/download/v1.0.1/GOOMPS.dll"
+  },
+  {
+    "name": "GorillaLibrary",
+    "author": "GorillaTagModdingHub",
+    "version": "1.1.0",
+    "git_path": "GorillaTagModdingHub/GorillaLibrary",
+    "group": "Core",
+    "download_url": "https://github.com/GorillaTagModdingHub/GorillaLibrary/releases/download/1.1.0/GorillaLibrary.dll"
+  },
+  {
     "name": "HoneyLib",
     "author": "buzzbb",
     "version": "1.1.5",
@@ -43,6 +62,17 @@
     "git_path": "legoandmars/Newtonsoft.Json",
     "group": "Libraries",
     "download_url": "https://github.com/legoandmars/Newtonsoft.Json/releases/download/12.0.3/Newtonsoft.Json-12.0.3.zip"
+  },
+  {
+    "name": "Spatial Gorilla",
+    "author": "LIV",
+    "version": "0.1.0",
+    "dependencies": [
+      "GorillaLibrary"
+    ],
+    "git_path": "LIV/SpatialGorilla",
+    "group": "Tweaks / Tools",
+    "download_url": "https://github.com/LIV/SpatialGorilla/releases/download/v0.1.0/GorillaTagSpatial_v0.1.0.zip"
   },
   {
     "name": "TMPLoader",
@@ -62,14 +92,6 @@
     "git_path": "HuskyGT/TicTacToe",
     "group": "Gameplay",
     "download_url": "https://github.com/HuskyGT/TicTacToe/releases/download/1.0.3/TicTacToe.dll"
-  },
-  {
-    "name": "GorillaLibrary",
-    "author": "GorillaTagModdingHub",
-    "version": "1.1.0",
-    "git_path": "GorillaTagModdingHub/GorillaLibrary",
-    "group": "Core",
-    "download_url": "https://github.com/GorillaTagModdingHub/GorillaLibrary/releases/download/1.1.0/GorillaLibrary.dll"
   },
   {
     "name": "bHaptics",

@@ -63,9 +63,9 @@
 		{
 			"name": "GOOMPS",
 			"tag": "",
-			"gitPath": "BzzzThe18th/GOOMPS",
+			"gitPath": "iiDkRemastered/GOOMPS",
 			"releaseId": 0,
-			"author": "buzzbb",
+			"author": "iiDkRemastered",
 			"group": "Tweaks / Tools",
 			"dependencies": [
 				"GorillaLibrary"

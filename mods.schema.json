@@ -44,7 +44,7 @@
         "name": {
           "type": "string"
         },
-        "rankd": {
+        "rank": {
           "type": "integer"
         }
       }

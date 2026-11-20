@@ -1,40 +1,40 @@
 name: Check for Mod Updates
-on: 
+
+on:
   push:
     branches:
-      - 'master'
+      - master
   schedule:
-  - cron: '*/20 * * * *'
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  test:
+  update:
     name: Check for Mod Updates
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Check for Updates
-      run: node app.js
-      env:
-        SECRET: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check for updates
+        run: node app.js
+        env:
+          SECRET: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Check for Modified Files
-      id: git-check
-      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
-
-    - name: Commit Latest Release Version
-      if: steps.git-check.outputs.modified == 'true'
-      run: |
-        git config --global user.name 'BzzzThe18th'
-        git config --global user.email 'BzzzThe18th@users.noreply.github.com'
-        git add modinfo.json
-        git commit -am "Update modinfo.json"
-        git push
+      - name: Commit latest release versions
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if ! git diff --quiet -- modinfo.json; then
+            git add modinfo.json
+            git commit -m "Update modinfo.json"
+            git push
+          fi
