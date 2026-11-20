@@ -9,6 +9,7 @@ on:
     paths:
       - 'mods.json'
       - 'mods.schema.json'
+  workflow_dispatch:
 
 jobs:
   verify-json-validation:
