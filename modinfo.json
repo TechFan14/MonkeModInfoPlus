@@ -72,6 +72,14 @@
     "download_url": "https://github.com/legoandmars/Newtonsoft.Json/releases/download/12.0.3/Newtonsoft.Json-12.0.3.zip"
   },
   {
+    "name": "Poison Menu",
+    "author": "Poison Software",
+    "version": "5.1.8",
+    "git_path": "heycanihavethis/Poison",
+    "group": "Tweaks / Tools",
+    "download_url": "https://github.com/heycanihavethis/Poison/releases/download/5.1.8beta/Poison.Menu.dll"
+  },
+  {
     "name": "Spatial Gorilla",
     "author": "LIV",
     "version": "0.1.0",

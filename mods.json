@@ -108,6 +108,14 @@
 			"releaseId": 0,
 			"author": "iiDkRemastered",
 			"group": "Cosmetic"
+		},
+		{
+			"name": "Poison Menu",
+			"tag": "",
+			"gitPath": "heycanihavethis/Poison",
+			"releaseId": 0,
+			"author": "Poison Software",
+			"group": "Tweaks / Tools"
 		}
 	],
 	"groups": [{
