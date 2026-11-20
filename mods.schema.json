@@ -1,5 +1,5 @@
 {
-  "$id": "https://github.com/TechFan14/MonkeModInfo/mods.schema.json",
+  "$id": "https://github.com/TechFan14/MonkeModInfoPlus/mods.schema.json",
   "type": "object",
   "required": ["mods", "groups"],
   "properties": {
